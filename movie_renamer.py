@@ -77,7 +77,7 @@ def rename_movies(lib_dir,currentDirectory):
 	titles = [];
 
 	movie_regex = ".*\.(mp4|avi|mov|mkv|srt|txt)$";
-	correct_regex = "^([ a-zA-Z]+\(\d{4}\))[.](mp4|avi|mov|mkv|txt|srt)$";	
+	correct_regex = "^([ a-zA-Z']+\(\d{4}\))[.](mp4|avi|mov|mkv|txt|srt)$";	
 	
 	for file in os.listdir(currentDirectory):
 
@@ -98,17 +98,17 @@ def rename_movies(lib_dir,currentDirectory):
 						os.mkdir(os.path.join(lib_dir,new_filename))
 					os.rename(os.path.join(currentDirectory,file),os.path.join(lib_dir,new_filename, (new_filename + "." + extension)))
 					if(not new_filename in titles): titles = titles + [new_filename]
-				
-				new_filename = find_movie(file)
-				print("old name: " + os.path.join(currentDirectory,file))
-				print("new name: " + os.path.join(lib_dir,new_filename, (new_filename + "." + extension)))
-				confirm = input("Is this title correct?")
-				if(confirm == 'y'):
-					if(not os.path.isdir(os.path.join(lib_dir,new_filename))):
-						os.mkdir(os.path.join(lib_dir,new_filename))
-					os.rename(os.path.join(currentDirectory,file),os.path.join(lib_dir,new_filename, (new_filename + "." + extension)))
-					if(not new_filename in titles): titles = titles + [new_filename]
-				
+				else:
+					new_filename = find_movie(file)
+					print("old name: " + os.path.join(currentDirectory,file))
+					print("new name: " + os.path.join(lib_dir,new_filename, (new_filename + "." + extension)))
+					confirm = input("Is this title correct?")
+					if(confirm == 'y'):
+						if(not os.path.isdir(os.path.join(lib_dir,new_filename))):
+							os.mkdir(os.path.join(lib_dir,new_filename))
+						os.rename(os.path.join(currentDirectory,file),os.path.join(lib_dir,new_filename, (new_filename + "." + extension)))
+						if(not new_filename in titles): titles = titles + [new_filename]
+					
 				print('\n')
 		elif(os.path.isdir(file)):
 			titles = titles + rename_movies(lib_dir, file)
